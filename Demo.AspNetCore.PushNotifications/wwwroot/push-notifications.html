@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/styles/push-notifications.css" />
+    <title>Demo.AspNetCore.PushNotifications</title>
+</head>
+<body>
+    <div>
+        <div id="dashboard-controls">
+            <button disabled="disabled" id="subscribe">Subscribe for Push Notifications</button>
+            <button disabled="disabled" id="unsubscribe">Unsubscribe from Push Notifications</button>
+            <br />
+            <input id="notification" size="65">
+            <button id="send">Send Push Notification</button>
+        </div>
+        <hr />
+        <div id="dashboard-console">
+            <label>Log:</label>
+            <div id="output"></div>
+            <button id="clear" style="position: relative; top: 3px;">Clear</button>
+        </div>
+    </div>
+    <script src="scripts/push-notifications.js"></script>
+</body>
+</html>

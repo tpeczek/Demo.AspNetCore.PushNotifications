@@ -1,0 +1,40 @@
+﻿button {
+    font-family: "Open Sans";
+    font-size: 13px;
+    font-weight: 700;
+    background-color: #eee;
+    vertical-align: baseline;
+    margin-top: 5px;
+    border-color: #ccc;
+    border-width: 1px;
+    border-style: solid !important;
+}
+
+button:hover {
+    color: #f60;
+    border-color: #f60;
+    border-width: 1px;
+    border-style: solid !important;
+}
+
+#dashboard-controls {
+}
+
+#dashboard-console {
+    margin-top: 15px;
+    width: 645px;
+}
+
+#output {
+    border: solid 1px #999999;
+    border-top-color: #CCCCCC;
+    border-left-color: #CCCCCC;
+    padding: 5px;
+    width: 100%;
+    height: 172px;
+    overflow-y: scroll;
+}
+
+#output p {
+    font-size: 11px;
+}
