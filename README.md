@@ -3,3 +3,4 @@
 Sample project for demonstrating Push Notifications based on Push API and Web Push Protocol in ASP.NET Core:
 
 - [Push API](https://www.tpeczek.com/2017/12/push-notifications-and-aspnet-core-part.html)
+- [Requesting Delivery](https://www.tpeczek.com/2018/01/push-notifications-and-aspnet-core-part.html)
