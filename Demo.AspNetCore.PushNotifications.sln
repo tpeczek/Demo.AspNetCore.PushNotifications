@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.AspNetCore.PushNotific
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.AspNetCore.PushNotifications.Services.WebPush", "Demo.AspNetCore.PushNotifications.Services.WebPush\Demo.AspNetCore.PushNotifications.Services.WebPush.csproj", "{4E92A547-5718-428F-BFC3-EBE4915E90DF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.AspNetCore.PushNotifications.Services.PushService", "Demo.AspNetCore.PushNotifications.Services.PushService\Demo.AspNetCore.PushNotifications.Services.PushService.csproj", "{A5673FCA-B7C2-427F-BD56-0E9AB539F5CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{4E92A547-5718-428F-BFC3-EBE4915E90DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E92A547-5718-428F-BFC3-EBE4915E90DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E92A547-5718-428F-BFC3-EBE4915E90DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5673FCA-B7C2-427F-BD56-0E9AB539F5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5673FCA-B7C2-427F-BD56-0E9AB539F5CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5673FCA-B7C2-427F-BD56-0E9AB539F5CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5673FCA-B7C2-427F-BD56-0E9AB539F5CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
