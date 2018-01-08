@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
+using Lib.Net.Http.WebPush;
+using Lib.Net.Http.WebPush.Authentication;
 using Demo.AspNetCore.PushNotifications.Services.Abstractions;
-using Demo.AspNetCore.PushNotifications.Services.PushService.Client;
-using Demo.AspNetCore.PushNotifications.Services.PushService.Client.Authentication;
 
 namespace Demo.AspNetCore.PushNotifications.Services.PushService
 {

@@ -1,30 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WebPush = Lib.Net.Http.WebPush;
 
 namespace Demo.AspNetCore.PushNotifications.Services.Sqlite
 {
     internal class PushSubscriptionContext : DbContext
     {
-        public class PushSubscription : Abstractions.PushSubscription
+        public class PushSubscription : WebPush.PushSubscription
         {
             public string P256DH
             {
-                get { return GetKey(Abstractions.PushEncryptionKeyName.P256DH); }
+                get { return GetKey(WebPush.PushEncryptionKeyName.P256DH); }
 
-                set { SetKey(Abstractions.PushEncryptionKeyName.P256DH, value); }
+                set { SetKey(WebPush.PushEncryptionKeyName.P256DH, value); }
             }
 
             public string Auth
             {
-                get { return GetKey(Abstractions.PushEncryptionKeyName.Auth); }
+                get { return GetKey(WebPush.PushEncryptionKeyName.Auth); }
 
-                set { SetKey(Abstractions.PushEncryptionKeyName.Auth, value); }
+                set { SetKey(WebPush.PushEncryptionKeyName.Auth, value); }
             }
 
             public PushSubscription()
             { }
 
-            public PushSubscription(Abstractions.PushSubscription subscription)
+            public PushSubscription(WebPush.PushSubscription subscription)
             {
                 Endpoint = subscription.Endpoint;
                 Keys = subscription.Keys;

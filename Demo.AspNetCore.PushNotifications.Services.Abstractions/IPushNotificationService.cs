@@ -1,4 +1,6 @@
-﻿namespace Demo.AspNetCore.PushNotifications.Services.Abstractions
+﻿using Lib.Net.Http.WebPush;
+
+namespace Demo.AspNetCore.PushNotifications.Services.Abstractions
 {
     public interface IPushNotificationService
     {
