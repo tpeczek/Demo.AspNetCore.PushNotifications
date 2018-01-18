@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Lib.Net.Http.WebPush;
+using Demo.AspNetCore.PushNotifications.Model;
 using Demo.AspNetCore.PushNotifications.Services.Abstractions;
 
 namespace Demo.AspNetCore.PushNotifications.Controllers
@@ -44,10 +45,16 @@ namespace Demo.AspNetCore.PushNotifications.Controllers
 
         // POST push-notifications-api/notifications
         [HttpPost("notifications")]
-        public async Task<IActionResult> SendNotification([FromBody]string payload)
+        public async Task<IActionResult> SendNotification([FromBody]PushMessageViewModel message)
         {
+            PushMessage pushMessage = new PushMessage(message.Notification)
+            {
+                Topic = message.Topic,
+                Urgency = message.Urgency
+            };
+
             // TODO: This should be scheduled in background
-            await _subscriptionStore.ForEachSubscriptionAsync((PushSubscription subscription) => _notificationService.SendNotification(subscription, payload));
+            await _subscriptionStore.ForEachSubscriptionAsync((PushSubscription subscription) => _notificationService.SendNotification(subscription, pushMessage));
 
             return NoContent();
         }

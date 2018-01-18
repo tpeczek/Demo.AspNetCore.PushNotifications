@@ -32,11 +32,11 @@ namespace Demo.AspNetCore.PushNotifications.Services.PushService
             _logger = logger;
         }
 
-        public void SendNotification(PushSubscription subscription, string payload)
+        public void SendNotification(PushSubscription subscription, PushMessage message)
         {
             try
             {
-                _pushClient.RequestPushMessageDeliveryAsync(subscription, new PushMessage(payload)).Wait();
+                _pushClient.RequestPushMessageDeliveryAsync(subscription, message).Wait();
             }
             catch (Exception ex)
             {

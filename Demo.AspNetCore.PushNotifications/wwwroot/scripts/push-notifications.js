@@ -4,7 +4,7 @@
     let consoleOutput;
     let pushServiceWorkerRegistration;
     let subscribeButton, unsubscribeButton;
-    let notificationInput;
+    let topicInput, urgencySelect, notificationInput;
 
     function urlB64ToUint8Array(base64String) {
         const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -59,7 +59,9 @@
         unsubscribeButton = document.getElementById('unsubscribe');
         unsubscribeButton.addEventListener('click', unsubscribeFromPushNotifications);
 
+        topicInput = document.getElementById('topic');
         notificationInput = document.getElementById('notification');
+        urgencySelect = document.getElementById('urgency');
         document.getElementById('send').addEventListener('click', sendPushNotification);
 
         pushServiceWorkerRegistration.pushManager.getSubscription()
@@ -158,12 +160,12 @@
     };
 
     function sendPushNotification() {
-        let payload = notificationInput.value;
+        let payload = { topic: topicInput.value, notification: notificationInput.value, urgency: urgencySelect.value };
 
         fetch('push-notifications-api/notifications', {
             method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            body: payload
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         })
             .then(function (response) {
                 if (response.ok) {

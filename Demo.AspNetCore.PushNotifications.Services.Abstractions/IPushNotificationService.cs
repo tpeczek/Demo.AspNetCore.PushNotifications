@@ -6,6 +6,6 @@ namespace Demo.AspNetCore.PushNotifications.Services.Abstractions
     {
         string PublicKey { get; }
 
-        void SendNotification(PushSubscription subscription, string payload);
+        void SendNotification(PushSubscription subscription, PushMessage message);
     }
 }
