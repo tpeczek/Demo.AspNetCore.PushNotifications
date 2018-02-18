@@ -1,4 +1,5 @@
-﻿using Lib.Net.Http.WebPush;
+﻿using System.Threading.Tasks;
+using Lib.Net.Http.WebPush;
 
 namespace Demo.AspNetCore.PushNotifications.Services.Abstractions
 {
@@ -6,6 +7,6 @@ namespace Demo.AspNetCore.PushNotifications.Services.Abstractions
     {
         string PublicKey { get; }
 
-        void SendNotification(PushSubscription subscription, PushMessage message);
+        Task SendNotificationAsync(PushSubscription subscription, PushMessage message);
     }
 }

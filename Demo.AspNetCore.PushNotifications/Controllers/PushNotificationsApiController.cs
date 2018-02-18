@@ -54,7 +54,11 @@ namespace Demo.AspNetCore.PushNotifications.Controllers
             };
 
             // TODO: This should be scheduled in background
-            await _subscriptionStore.ForEachSubscriptionAsync((PushSubscription subscription) => _notificationService.SendNotification(subscription, pushMessage));
+            await _subscriptionStore.ForEachSubscriptionAsync((PushSubscription subscription) =>
+            {
+                // Fire-and-forget 
+                _notificationService.SendNotificationAsync(subscription, pushMessage);
+            });
 
             return NoContent();
         }

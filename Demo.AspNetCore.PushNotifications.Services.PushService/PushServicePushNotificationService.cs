@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Lib.Net.Http.WebPush;
@@ -32,11 +33,11 @@ namespace Demo.AspNetCore.PushNotifications.Services.PushService
             _logger = logger;
         }
 
-        public void SendNotification(PushSubscription subscription, PushMessage message)
+        public async Task SendNotificationAsync(PushSubscription subscription, PushMessage message)
         {
             try
             {
-                _pushClient.RequestPushMessageDeliveryAsync(subscription, message).Wait();
+                await _pushClient.RequestPushMessageDeliveryAsync(subscription, message);
             }
             catch (Exception ex)
             {
