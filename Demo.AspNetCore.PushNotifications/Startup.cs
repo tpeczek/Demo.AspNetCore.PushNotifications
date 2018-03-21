@@ -22,6 +22,7 @@ namespace Demo.AspNetCore.PushNotifications
         {
             services.AddPushSubscriptionStore(Configuration)
                 .AddPushNotificationService(Configuration)
+                .AddPushNotificationsQueue()
                 .AddMvc(options =>
                 {
                     options.InputFormatters.Add(new TextPlainInputFormatter());

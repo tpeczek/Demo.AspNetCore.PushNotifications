@@ -11,11 +11,13 @@ namespace Demo.AspNetCore.PushNotifications.Controllers
     {
         private readonly IPushSubscriptionStore _subscriptionStore;
         private readonly IPushNotificationService _notificationService;
+        private readonly IPushNotificationsQueue _pushNotificationsQueue;
 
-        public PushNotificationsApiController(IPushSubscriptionStore subscriptionStore, IPushNotificationService notificationService)
+        public PushNotificationsApiController(IPushSubscriptionStore subscriptionStore, IPushNotificationService notificationService, IPushNotificationsQueue pushNotificationsQueue)
         {
             _subscriptionStore = subscriptionStore;
             _notificationService = notificationService;
+            _pushNotificationsQueue = pushNotificationsQueue;
         }
 
         // GET push-notifications-api/public-key
@@ -45,19 +47,12 @@ namespace Demo.AspNetCore.PushNotifications.Controllers
 
         // POST push-notifications-api/notifications
         [HttpPost("notifications")]
-        public async Task<IActionResult> SendNotification([FromBody]PushMessageViewModel message)
+        public IActionResult SendNotification([FromBody]PushMessageViewModel message)
         {
-            PushMessage pushMessage = new PushMessage(message.Notification)
+            _pushNotificationsQueue.Enqueue(new PushMessage(message.Notification)
             {
                 Topic = message.Topic,
                 Urgency = message.Urgency
-            };
-
-            // TODO: This should be scheduled in background
-            await _subscriptionStore.ForEachSubscriptionAsync((PushSubscription subscription) =>
-            {
-                // Fire-and-forget 
-                _notificationService.SendNotificationAsync(subscription, pushMessage);
             });
 
             return NoContent();

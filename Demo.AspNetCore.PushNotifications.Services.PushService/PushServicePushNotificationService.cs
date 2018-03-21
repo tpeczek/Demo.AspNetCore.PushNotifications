@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
@@ -33,11 +34,16 @@ namespace Demo.AspNetCore.PushNotifications.Services.PushService
             _logger = logger;
         }
 
-        public async Task SendNotificationAsync(PushSubscription subscription, PushMessage message)
+        public Task SendNotificationAsync(PushSubscription subscription, PushMessage message)
+        {
+            return SendNotificationAsync(subscription, message, CancellationToken.None);
+        }
+
+        public async Task SendNotificationAsync(PushSubscription subscription, PushMessage message, CancellationToken cancellationToken)
         {
             try
             {
-                await _pushClient.RequestPushMessageDeliveryAsync(subscription, message);
+                await _pushClient.RequestPushMessageDeliveryAsync(subscription, message, cancellationToken);
             }
             catch (Exception ex)
             {

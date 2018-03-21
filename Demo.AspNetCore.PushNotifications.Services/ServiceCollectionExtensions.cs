@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Demo.AspNetCore.PushNotifications.Services.Abstractions;
@@ -24,6 +24,14 @@ namespace Demo.AspNetCore.PushNotifications.Services
             services.Configure<PushNotificationServiceOptions>(configuration.GetSection(PUSH_NOTIFICATION_SERVICE_CONFIGURATION_SECTION));
 
             services.AddPushServicePushNotificationService();
+
+            return services;
+        }
+
+        public static IServiceCollection AddPushNotificationsQueue(this IServiceCollection services)
+        {
+            services.AddSingleton<IPushNotificationsQueue, PushNotificationsQueue>();
+            services.AddSingleton<IHostedService, PushNotificationsDequeuer>();
 
             return services;
         }

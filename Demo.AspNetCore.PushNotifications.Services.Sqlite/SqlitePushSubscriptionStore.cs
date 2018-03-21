@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Lib.Net.Http.WebPush;
@@ -33,7 +34,12 @@ namespace Demo.AspNetCore.PushNotifications.Services.Sqlite
 
         public Task ForEachSubscriptionAsync(Action<PushSubscription> action)
         {
-            return _context.Subscriptions.AsNoTracking().ForEachAsync(action);
+            return ForEachSubscriptionAsync(action, CancellationToken.None);
+        }
+
+        public Task ForEachSubscriptionAsync(Action<PushSubscription> action, CancellationToken cancellationToken)
+        {
+            return _context.Subscriptions.AsNoTracking().ForEachAsync(action, cancellationToken);
         }
     }
 }

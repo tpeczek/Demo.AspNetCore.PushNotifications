@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Lib.Net.Http.WebPush;
 
@@ -11,5 +12,7 @@ namespace Demo.AspNetCore.PushNotifications.Services.Abstractions
         Task DiscardSubscriptionAsync(string endpoint);
 
         Task ForEachSubscriptionAsync(Action<PushSubscription> action);
+
+        Task ForEachSubscriptionAsync(Action<PushSubscription> action, CancellationToken cancellationToken);
     }
 }
