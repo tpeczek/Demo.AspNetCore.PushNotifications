@@ -1,19 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.0-rc1-final" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Demo.AspNetCore.PushNotifications.Services.Abstractions\Demo.AspNetCore.PushNotifications.Services.Abstractions.csproj" />
     <ProjectReference Include="..\Demo.AspNetCore.PushNotifications.Services.PushService\Demo.AspNetCore.PushNotifications.Services.PushService.csproj" />
     <ProjectReference Include="..\Demo.AspNetCore.PushNotifications.Services.Sqlite\Demo.AspNetCore.PushNotifications.Services.Sqlite.csproj" />
   </ItemGroup>
-
 </Project>
