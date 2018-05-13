@@ -18,17 +18,15 @@ namespace Demo.AspNetCore.PushNotifications.Services.PushService
 
         public string PublicKey { get { return _options.PublicKey; } }
 
-        public PushServicePushNotificationService(IOptions<PushNotificationServiceOptions> optionsAccessor, IVapidTokenCache vapidTokenCache, ILogger<PushServicePushNotificationService> logger)
+        public PushServicePushNotificationService(IOptions<PushNotificationServiceOptions> optionsAccessor, IVapidTokenCache vapidTokenCache, PushServiceClient pushClient, ILogger<PushServicePushNotificationService> logger)
         {
             _options = optionsAccessor.Value;
 
-            _pushClient = new PushServiceClient
+            _pushClient = pushClient;
+            _pushClient.DefaultAuthentication = new VapidAuthentication(_options.PublicKey, _options.PrivateKey)
             {
-                DefaultAuthentication = new VapidAuthentication(_options.PublicKey, _options.PrivateKey)
-                {
-                    Subject = _options.Subject,
-                    TokenCache = vapidTokenCache
-                }
+                Subject = _options.Subject,
+                TokenCache = vapidTokenCache
             };
 
             _logger = logger;
