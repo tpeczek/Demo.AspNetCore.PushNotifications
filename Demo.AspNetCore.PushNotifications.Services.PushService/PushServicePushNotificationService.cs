@@ -18,7 +18,7 @@ namespace Demo.AspNetCore.PushNotifications.Services.PushService
 
         public string PublicKey { get { return _options.PublicKey; } }
 
-        public PushServicePushNotificationService(IOptions<PushNotificationServiceOptions> optionsAccessor, IVapidTokenCache vapidTokenCache, PushServiceClient pushClient, ILogger<PushServicePushNotificationService> logger)
+        public PushServicePushNotificationService(IOptions<PushNotificationServiceOptions> optionsAccessor, PushServiceClient pushClient, IVapidTokenCache vapidTokenCache, ILogger<PushServicePushNotificationService> logger)
         {
             _options = optionsAccessor.Value;
 
