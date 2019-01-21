@@ -16,6 +16,8 @@ namespace Demo.AspNetCore.PushNotifications.Services.Sqlite
             );
 
             services.AddTransient<IPushSubscriptionStore, SqlitePushSubscriptionStore>();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IPushSubscriptionStoreAccessorProvider, SqlitePushSubscriptionStoreAccessorProvider>();
 
             return services;
         }

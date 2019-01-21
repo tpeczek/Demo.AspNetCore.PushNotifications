@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Lib.Net.Http.WebPush;
 using Demo.AspNetCore.PushNotifications.Services.Abstractions;
 
@@ -10,16 +8,16 @@ namespace Demo.AspNetCore.PushNotifications.Services
 {
     internal class PushNotificationsDequeuer : IHostedService
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IPushSubscriptionStoreAccessorProvider _subscriptionStoreAccessorProvider;
         private readonly IPushNotificationsQueue _messagesQueue;
         private readonly IPushNotificationService _notificationService;
         private readonly CancellationTokenSource _stopTokenSource = new CancellationTokenSource();
 
         private Task _dequeueMessagesTask;
 
-        public PushNotificationsDequeuer(IServiceProvider serviceProvider, IPushNotificationsQueue messagesQueue, IPushNotificationService notificationService)
+        public PushNotificationsDequeuer(IPushNotificationsQueue messagesQueue, IPushSubscriptionStoreAccessorProvider subscriptionStoreAccessorProvider, IPushNotificationService notificationService)
         {
-            _serviceProvider = serviceProvider;
+            _subscriptionStoreAccessorProvider = subscriptionStoreAccessorProvider;
             _messagesQueue = messagesQueue;
             _notificationService = notificationService;
         }
@@ -46,11 +44,9 @@ namespace Demo.AspNetCore.PushNotifications.Services
 
                 if (!_stopTokenSource.IsCancellationRequested)
                 {
-                    using (IServiceScope serviceScope = _serviceProvider.CreateScope())
+                    using (IPushSubscriptionStoreAccessor subscriptionStoreAccessor = _subscriptionStoreAccessorProvider.GetPushSubscriptionStoreAccessor())
                     {
-                        IPushSubscriptionStore subscriptionStore = serviceScope.ServiceProvider.GetRequiredService<IPushSubscriptionStore>();
-
-                        await subscriptionStore.ForEachSubscriptionAsync((PushSubscription subscription) =>
+                        await subscriptionStoreAccessor.PushSubscriptionStore.ForEachSubscriptionAsync((PushSubscription subscription) =>
                         {
                             // Fire-and-forget 
                             _notificationService.SendNotificationAsync(subscription, message, _stopTokenSource.Token);
