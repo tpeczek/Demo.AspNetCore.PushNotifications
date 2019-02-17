@@ -1,4 +1,4 @@
-﻿var PushNotifications = (function () {
+﻿const PushNotifications = (function () {
     let applicationServerPublicKey;
 
     let consoleOutput;
@@ -6,30 +6,16 @@
     let subscribeButton, unsubscribeButton;
     let topicInput, urgencySelect, notificationInput;
 
-    function urlB64ToUint8Array(base64String) {
-        const padding = '='.repeat((4 - base64String.length % 4) % 4);
-        const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
-
-        const rawData = window.atob(base64);
-        const outputArray = new Uint8Array(rawData.length);
-
-        for (let i = 0; i < rawData.length; ++i) {
-            outputArray[i] = rawData.charCodeAt(i);
-        }
-
-        return outputArray;
-    };
-
     function initializeConsole() {
         consoleOutput = document.getElementById('output');
         document.getElementById('clear').addEventListener('click', clearConsole);
-    };
+    }
 
     function clearConsole() {
         while (consoleOutput.childNodes.length > 0) {
             consoleOutput.removeChild(consoleOutput.lastChild);
         }
-    };
+    }
 
     function writeToConsole(text) {
         var paragraph = document.createElement('p');
@@ -37,7 +23,7 @@
         paragraph.appendChild(document.createTextNode(text));
 
         consoleOutput.appendChild(paragraph);
-    };
+    }
 
     function registerPushServiceWorker() {
         navigator.serviceWorker.register('/scripts/service-workers/push-service-worker.js', { scope: '/scripts/service-workers/push-service-worker/' })
@@ -50,7 +36,7 @@
             }).catch(function (error) {
                 writeToConsole('Push Service Worker registration has failed: ' + error);
             });
-    };
+    }
 
     function initializeUIState() {
         subscribeButton = document.getElementById('subscribe');
@@ -68,7 +54,7 @@
             .then(function (subscription) {
                 changeUIState(Notification.permission === 'denied', subscription !== null);
             });
-    };
+    }
 
     function changeUIState(notificationsBlocked, isSubscibed) {
         subscribeButton.disabled = notificationsBlocked || isSubscibed;
@@ -77,21 +63,15 @@
         if (notificationsBlocked) {
             writeToConsole('Permission for Push Notifications has been denied');
         }
-    };
+    }
 
     function subscribeForPushNotifications() {
         if (applicationServerPublicKey) {
             subscribeForPushNotificationsInternal();
         } else {
-            fetch('push-notifications-api/public-key')
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.text();
-                    } else {
-                        writeToConsole('Failed to retrieve Public Key');
-                    }
-                }).then(function (applicationServerPublicKeyBase64) {
-                    applicationServerPublicKey = urlB64ToUint8Array(applicationServerPublicKeyBase64);
+            PushNotificationsController.retrievePublicKey()
+                .then(function (retrievedPublicKey) {
+                    applicationServerPublicKey = retrievedPublicKey;
                     writeToConsole('Successfully retrieved Public Key');
 
                     subscribeForPushNotificationsInternal();
@@ -99,7 +79,7 @@
                     writeToConsole('Failed to retrieve Public Key: ' + error);
                 });
         }
-    };
+    }
 
     function subscribeForPushNotificationsInternal() {
         pushServiceWorkerRegistration.pushManager.subscribe({
@@ -107,11 +87,7 @@
             applicationServerKey: applicationServerPublicKey
         })
             .then(function (pushSubscription) {
-                fetch('push-notifications-api/subscriptions', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(pushSubscription)
-                })
+                PushNotificationsController.storePushSubscription(pushSubscription)
                     .then(function (response) {
                         if (response.ok) {
                             writeToConsole('Successfully subscribed for Push Notifications');
@@ -130,7 +106,7 @@
                     writeToConsole('Failed to subscribe for Push Notifications: ' + error);
                 }
             });
-    };
+    }
 
     function unsubscribeFromPushNotifications() {
         pushServiceWorkerRegistration.pushManager.getSubscription()
@@ -138,9 +114,7 @@
                 if (pushSubscription) {
                     pushSubscription.unsubscribe()
                         .then(function () {
-                            fetch('push-notifications-api/subscriptions?endpoint=' + encodeURIComponent(pushSubscription.endpoint), {
-                                method: 'DELETE',
-                            })
+                            PushNotificationsController.discardPushSubscription(pushSubscription)
                                 .then(function (response) {
                                     if (response.ok) {
                                         writeToConsole('Successfully unsubscribed from Push Notifications');
@@ -157,7 +131,7 @@
                         });
                 }
             });
-    };
+    }
 
     function sendPushNotification() {
         let payload = { topic: topicInput.value, notification: notificationInput.value, urgency: urgencySelect.value };
@@ -176,18 +150,18 @@
             }).catch(function (error) {
                 writeToConsole('Failed to send Push Notification: ' + error);
             });
-    };
+    }
 
     return {
         initialize: function () {
             initializeConsole();
 
-            if (!'serviceWork' in navigator) {
+            if (!('serviceWorker' in navigator)) {
                 writeToConsole('Service Workers are not supported');
                 return;
             }
 
-            if (!'PushManager' in window) {
+            if (!('PushManager' in window)) {
                 writeToConsole('Push API not supported');
                 return;
             }
