@@ -1,17 +1,24 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Lib.Net.Http.WebPush;
-using Lib.Net.Http.WebPush.Authentication;
 using Demo.AspNetCore.PushNotifications.Services.Abstractions;
 
 namespace Demo.AspNetCore.PushNotifications.Services.PushService
 {
     public static class PushServiceServiceCollectionExtensions
     {
-        public static IServiceCollection AddPushServicePushNotificationService(this IServiceCollection services)
+        public static IServiceCollection AddPushServicePushNotificationService(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMemoryCache();
-            services.AddSingleton<IVapidTokenCache, MemoryVapidTokenCache>();
-            services.AddHttpClient<PushServiceClient>();
+            services.AddMemoryVapidTokenCache();
+            services.AddPushServiceClient(options =>
+            {
+                IConfigurationSection pushNotificationServiceConfigurationSection = configuration.GetSection(nameof(PushServiceClient));
+
+                options.Subject = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.Subject));
+                options.PublicKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PublicKey));
+                options.PrivateKey = pushNotificationServiceConfigurationSection.GetValue<string>(nameof(options.PrivateKey));
+            });
             services.AddTransient<IPushNotificationService, PushServicePushNotificationService>();
 
             return services;

@@ -9,7 +9,7 @@ namespace Demo.AspNetCore.PushNotifications.Services
 {
     public static class ServiceCollectionExtensions
     {
-        private const string PUSH_NOTIFICATION_SERVICE_CONFIGURATION_SECTION = "PushNotificationService";
+        
 
         public static IServiceCollection AddPushSubscriptionStore(this IServiceCollection services, IConfiguration configuration)
         {
@@ -21,9 +21,8 @@ namespace Demo.AspNetCore.PushNotifications.Services
         public static IServiceCollection AddPushNotificationService(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptions();
-            services.Configure<PushNotificationServiceOptions>(configuration.GetSection(PUSH_NOTIFICATION_SERVICE_CONFIGURATION_SECTION));
 
-            services.AddPushServicePushNotificationService();
+            services.AddPushServicePushNotificationService(configuration);
 
             return services;
         }
