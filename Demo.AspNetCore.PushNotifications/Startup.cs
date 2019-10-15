@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
@@ -23,19 +22,19 @@ namespace Demo.AspNetCore.PushNotifications
         {
             services.AddPushSubscriptionStore(Configuration)
                 .AddPushNotificationService(Configuration)
-                .AddPushNotificationsQueue()
-                .AddMvc(options =>
-                {
-                    options.InputFormatters.Add(new TextPlainInputFormatter());
-                })
-                .AddJsonOptions(options =>
-                {
-                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .AddPushNotificationsQueue();
+
+            services.AddControllersWithViews(options =>
+            {
+                options.InputFormatters.Add(new TextPlainInputFormatter());
+            })
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.Converters.Add(new StringEnumConverter());
+            });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -49,10 +48,10 @@ namespace Demo.AspNetCore.PushNotifications
             app.UseDefaultFiles(defaultFilesOptions)
                 .UseStaticFiles()
                 .UsePushSubscriptionStore()
-                .UseMvc()
-                .Run(async (context) =>
+                .UseRouting()
+                .UseEndpoints(endpoints =>
                 {
-                    await context.Response.WriteAsync("-- Demo.AspNetCore.PushNotifications --");
+                    endpoints.MapControllers();
                 });
         }
     }
