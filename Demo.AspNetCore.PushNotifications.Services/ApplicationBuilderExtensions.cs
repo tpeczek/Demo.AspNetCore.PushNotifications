@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Demo.AspNetCore.PushNotifications.Services.Sqlite;
 
 namespace Demo.AspNetCore.PushNotifications.Services
@@ -7,7 +8,12 @@ namespace Demo.AspNetCore.PushNotifications.Services
     {
         public static IApplicationBuilder UsePushSubscriptionStore(this IApplicationBuilder app)
         {
-            app.UseSqlitePushSubscriptionStore();
+            SubscriptionStoreTypes subscriptionStoreType = ((IConfiguration)app.ApplicationServices.GetService(typeof(IConfiguration))).GetSubscriptionStoreType();
+
+            if (subscriptionStoreType == SubscriptionStoreTypes.Sqlite)
+            {
+                app.UseSqlitePushSubscriptionStore();
+            }
 
             return app;
         }

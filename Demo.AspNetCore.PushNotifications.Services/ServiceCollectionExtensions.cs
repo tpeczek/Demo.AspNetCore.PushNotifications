@@ -1,20 +1,30 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using System;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Demo.AspNetCore.PushNotifications.Services.Abstractions;
 using Demo.AspNetCore.PushNotifications.Services.Sqlite;
+using Demo.AspNetCore.PushNotifications.Services.LiteDB;
 using Demo.AspNetCore.PushNotifications.Services.PushService;
 
 namespace Demo.AspNetCore.PushNotifications.Services
 {
     public static class ServiceCollectionExtensions
     {
-        
-
         public static IServiceCollection AddPushSubscriptionStore(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSqlitePushSubscriptionStore(configuration);
-            
+            switch (configuration.GetSubscriptionStoreType())
+            {
+                case SubscriptionStoreTypes.Sqlite:
+                    services.AddSqlitePushSubscriptionStore(configuration);
+                    break;
+                case SubscriptionStoreTypes.LiteDB:
+                    services.AddLiteDatabasePushSubscriptionStore();
+                    break;
+                default:
+                    throw new NotSupportedException($"Not supported {nameof(IPushSubscriptionStore)} type.");
+            }
+
             return services;
         }
 

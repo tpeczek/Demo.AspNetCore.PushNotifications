@@ -10,6 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Demo.AspNetCore.PushNotifications.Services.Abstractions\Demo.AspNetCore.PushNotifications.Services.Abstractions.csproj" />
+    <ProjectReference Include="..\Demo.AspNetCore.PushNotifications.Services.LiteDB\Demo.AspNetCore.PushNotifications.Services.LiteDB.csproj" />
     <ProjectReference Include="..\Demo.AspNetCore.PushNotifications.Services.PushService\Demo.AspNetCore.PushNotifications.Services.PushService.csproj" />
     <ProjectReference Include="..\Demo.AspNetCore.PushNotifications.Services.Sqlite\Demo.AspNetCore.PushNotifications.Services.Sqlite.csproj" />
   </ItemGroup>
