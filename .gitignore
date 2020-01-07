@@ -290,4 +290,4 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 *.sqlitedb
-*.litedb
+pushsubscription.litedb
