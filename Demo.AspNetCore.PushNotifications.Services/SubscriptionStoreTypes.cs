@@ -3,6 +3,7 @@
     internal enum SubscriptionStoreTypes
     {
         Sqlite,
-        LiteDB
+        LiteDB,
+        CosmosDB
     }
 }

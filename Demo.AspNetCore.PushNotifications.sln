@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.AspNetCore.PushNotific
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.AspNetCore.PushNotifications.Services.PushService", "Demo.AspNetCore.PushNotifications.Services.PushService\Demo.AspNetCore.PushNotifications.Services.PushService.csproj", "{A5673FCA-B7C2-427F-BD56-0E9AB539F5CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.AspNetCore.PushNotifications.Services.LiteDB", "Demo.AspNetCore.PushNotifications.Services.LiteDB\Demo.AspNetCore.PushNotifications.Services.LiteDB.csproj", "{07239E05-582A-43AD-981B-E09CF2BC0C36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.AspNetCore.PushNotifications.Services.LiteDB", "Demo.AspNetCore.PushNotifications.Services.LiteDB\Demo.AspNetCore.PushNotifications.Services.LiteDB.csproj", "{07239E05-582A-43AD-981B-E09CF2BC0C36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.AspNetCore.PushNotifications.Services.Cosmos", "Demo.AspNetCore.PushNotifications.Services.Cosmos\Demo.AspNetCore.PushNotifications.Services.Cosmos.csproj", "{9DC94D39-D41C-459C-95C5-A936573263FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{07239E05-582A-43AD-981B-E09CF2BC0C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07239E05-582A-43AD-981B-E09CF2BC0C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07239E05-582A-43AD-981B-E09CF2BC0C36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DC94D39-D41C-459C-95C5-A936573263FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DC94D39-D41C-459C-95C5-A936573263FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DC94D39-D41C-459C-95C5-A936573263FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DC94D39-D41C-459C-95C5-A936573263FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

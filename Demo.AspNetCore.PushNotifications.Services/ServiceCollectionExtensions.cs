@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Demo.AspNetCore.PushNotifications.Services.Abstractions;
 using Demo.AspNetCore.PushNotifications.Services.Sqlite;
 using Demo.AspNetCore.PushNotifications.Services.LiteDB;
+using Demo.AspNetCore.PushNotifications.Services.Cosmos;
 using Demo.AspNetCore.PushNotifications.Services.PushService;
 
 namespace Demo.AspNetCore.PushNotifications.Services
@@ -20,6 +21,9 @@ namespace Demo.AspNetCore.PushNotifications.Services
                     break;
                 case SubscriptionStoreTypes.LiteDB:
                     services.AddLiteDatabasePushSubscriptionStore();
+                    break;
+                case SubscriptionStoreTypes.CosmosDB:
+                    services.AddCosmosDbPushSubscriptionStore();
                     break;
                 default:
                     throw new NotSupportedException($"Not supported {nameof(IPushSubscriptionStore)} type.");

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Demo.AspNetCore.PushNotifications.Services.Sqlite;
+using Demo.AspNetCore.PushNotifications.Services.Cosmos;
 
 namespace Demo.AspNetCore.PushNotifications.Services
 {
@@ -13,6 +14,10 @@ namespace Demo.AspNetCore.PushNotifications.Services
             if (subscriptionStoreType == SubscriptionStoreTypes.Sqlite)
             {
                 app.UseSqlitePushSubscriptionStore();
+            }
+            else if (subscriptionStoreType == SubscriptionStoreTypes.CosmosDB)
+            {
+                app.UseCosmosDbPushSubscriptionStore();
             }
 
             return app;

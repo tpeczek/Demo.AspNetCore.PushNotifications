@@ -9,6 +9,7 @@ namespace Demo.AspNetCore.PushNotifications.Services
         private const string SUBSCRIPTION_STORE_TYPE_CONFIGURATION_KEY = "PushSubscriptionStoreType";
         private const string SUBSCRIPTION_STORE_TYPE_SQLITE = "Sqlite";
         private const string SUBSCRIPTION_STORE_TYPE_LITEDB = "LiteDB";
+        private const string SUBSCRIPTION_STORE_TYPE_COSMOSDB = "CosmosDB";
 
         public static SubscriptionStoreTypes GetSubscriptionStoreType(this IConfiguration configuration)
         {
@@ -21,6 +22,10 @@ namespace Demo.AspNetCore.PushNotifications.Services
             else if (subscriptionStoreType.Equals(SUBSCRIPTION_STORE_TYPE_LITEDB, StringComparison.InvariantCultureIgnoreCase))
             {
                 return SubscriptionStoreTypes.LiteDB;
+            }
+            else if (subscriptionStoreType.Equals(SUBSCRIPTION_STORE_TYPE_COSMOSDB, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return SubscriptionStoreTypes.CosmosDB;
             }
             else
             {
