@@ -7,7 +7,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Lib.Net.Http.WebPush" Version="3.2.0" />
-    <PackageReference Include="LiteDB" Version="4.1.4" />
+    <PackageReference Include="LiteDB" Version="5.0.13" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Demo.AspNetCore.PushNotifications.Services.Abstractions\Demo.AspNetCore.PushNotifications.Services.Abstractions.csproj" />
