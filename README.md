@@ -25,7 +25,7 @@ In order to run the project, some configuration is required. Inside *appsettings
 }
 ```
 
-Those keys can be acquired with help of online generators (https://web-push-libs.github.io/vapid/js/) or Node.js (https://rossta.net/blog/using-the-web-push-api-with-vapid.html).
+Those keys can be acquired with help of online generators (https://vapidkeys.com/).
 
 ## Donating
 

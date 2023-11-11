@@ -1,0 +1,46 @@
+name: Deploy to Azure (With Cosmos DB Push Subscription Store)
+on: workflow_dispatch
+
+env:
+  PROJECT_NAME: demo-aspnetcore-pushnotifications
+  PROJECT_LOCATION: westeurope
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-infrastructe:
+    runs-on: ubuntu-latest
+    environment: azure
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy
+        uses: azure/arm-deploy@v1
+        with:
+          scope: subscription
+          region:  ${{ env.PROJECT_LOCATION }}
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          deploymentName: ${{ env.PROJECT_NAME }}
+          template: '"./infrastructure/azure/main.bicep"'
+          parameters: 'projectName=${{ env.PROJECT_NAME }} projectLocation=${{ env.PROJECT_LOCATION }}'
+          failOnStdErr: false
+      - name: Azure Logout
+        run: |
+          az logout
+          az cache purge
+          az account clear
+  build-and-deploy-webapp:
+    needs: [deploy-infrastructe]
+    runs-on: ubuntu-latest
+    environment: azure
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
