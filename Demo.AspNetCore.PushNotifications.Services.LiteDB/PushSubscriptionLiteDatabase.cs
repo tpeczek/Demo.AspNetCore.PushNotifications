@@ -26,7 +26,7 @@ namespace Demo.AspNetCore.PushNotifications.Services.LiteDB
         private const string SUBSCRIPTIONS_COLLECTION_NAME = "subscriptions";
 
         private readonly LiteDatabase _liteDatabase;
-        private readonly LiteCollection<PushSubscription> _subscriptions;
+        private readonly ILiteCollection<PushSubscription> _subscriptions;
 
         public PushSubscriptionLiteDatabase(IConfiguration configuration)
         {
@@ -41,7 +41,7 @@ namespace Demo.AspNetCore.PushNotifications.Services.LiteDB
 
         public void Remove(string endpoint)
         {
-            _subscriptions.Delete(subscription => subscription.Endpoint == endpoint);
+            _subscriptions.DeleteMany(subscription => subscription.Endpoint == endpoint);
         }
 
         public IEnumerable<WebPush.PushSubscription> GetAll()
