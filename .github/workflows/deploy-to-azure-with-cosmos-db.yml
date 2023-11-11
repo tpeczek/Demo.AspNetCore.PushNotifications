@@ -3,14 +3,16 @@ on: workflow_dispatch
 
 env:
   PROJECT_NAME: demo-aspnetcore-pushnotifications
+  PROJECT_PATH: './Demo.AspNetCore.PushNotifications'
   PROJECT_LOCATION: westeurope
+  PROJECT_APP_SERVICE_NAME: app-demo-aspnetcore-pushnotifications
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  deploy-infrastructe:
+  deploy-infrastructure:
     runs-on: ubuntu-latest
     environment: azure
     steps:
@@ -30,7 +32,7 @@ jobs:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
           deploymentName: ${{ env.PROJECT_NAME }}
           template: '"./infrastructure/azure/main.bicep"'
-          parameters: 'projectName=${{ env.PROJECT_NAME }} projectLocation=${{ env.PROJECT_LOCATION }}'
+          parameters: 'projectName=${{ env.PROJECT_NAME }} projectLocation=${{ env.PROJECT_LOCATION }} pushServiceClientSubject=${{ secrets.PUSHSERVICECLIENT_SUBJECT }} pushServiceClientPublicKey=${{ secrets.PUSHSERVICECLIENT_PUBLICKEY }} pushServiceClientPrivateKey=${{ secrets.PUSHSERVICECLIENT_PRIVATEKEY }}'
           failOnStdErr: false
       - name: Azure Logout
         run: |
@@ -38,9 +40,35 @@ jobs:
           az cache purge
           az account clear
   build-and-deploy-webapp:
-    needs: [deploy-infrastructe]
+    needs: [deploy-infrastructure]
     runs-on: ubuntu-latest
     environment: azure
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Setup .NET 6.0 SDK
+        uses: actions/setup-dotnet@v3.2.0
+        with:
+          dotnet-version: '6.0.x'
+      - name: Restore
+        run: dotnet restore "${PROJECT_PATH}"
+      - name: Build
+        run: dotnet build "${PROJECT_PATH}" --configuration Release --no-restore
+      - name: Publish
+        run: dotnet publish "${PROJECT_PATH}" --configuration Release --no-build --output ${DOTNET_ROOT}/${PROJECT_APP_SERVICE_NAME}
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.PROJECT_APP_SERVICE_NAME }}
+          package: ${{ env.DOTNET_ROOT }}/${{ env.PROJECT_APP_SERVICE_NAME }}
+      - name: Azure Logout
+        run: |
+          az logout
+          az cache purge
+          az account clear
