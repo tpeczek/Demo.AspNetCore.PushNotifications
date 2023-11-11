@@ -25,7 +25,7 @@ In order to run the project, some configuration is required. Inside *appsettings
 }
 ```
 
-Those keys can be acquired with help of online generators (https://vapidkeys.com/).
+Those keys can be acquired with help of online generators (https://vapidkeys.com/, https://www.attheminute.com/vapid-key-generator).
 
 ## Donating
 
