@@ -49,7 +49,7 @@ resource projectAppService 'Microsoft.Web/sites@2022-09-01' = {
   properties: {
     serverFarmId: projectAppServicePlan.id
     siteConfig: {
-      linuxFxVersion: 'DOTNETCORE|6.0'
+      linuxFxVersion: 'DOTNETCORE|8.0'
       appSettings: [
         {
           name: 'PushSubscriptionStoreType'
